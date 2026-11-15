@@ -1,10 +1,11 @@
 # Moon Dust Inc.
 
-three.js 離線成品（私人倉庫 `lisjfixm/moon-dust-inc`）。原始 Poki 來源：<https://poki.com/zh/g/moon-dust>。
+three.js 成品（公開倉庫 `lisjfixm/moon-dust-inc`）。原始 Poki 來源：<https://poki.com/zh/g/moon-dust>。
 
 - **目前版本**：1.0.0
 - **圖形引擎**：three.js r187（已內嵌於 `index.html`，無外部 CDN 依賴）
 - **離線可執行**：無外部 script、無廣告 SDK 連線；Poki 呼叫在離線時為 no-op。
+- **線上試玩**：<https://lisjfixm.github.io/moon-dust-inc/>
 
 ## 啟動方式
 
@@ -20,6 +21,13 @@ python3 -m http.server 8782 --bind 127.0.0.1
 ```
 
 需透過 HTTP 伺服器存取（模組載入與資產 fetch 有限制），不建議直接 `file://` 開啟。
+
+## GitHub Pages 部署
+
+- 站點：<https://lisjfixm.github.io/moon-dust-inc/>
+- 來源：`main` 分支根目錄（legacy build）；根目錄 `index.html` 即線上版本，更新 main 後自動發布。
+- 根目錄 `.nojekyll` 停用 Jekyll 處理，避免成品碼被轉換。
+- 部署前確認 main 根目錄 `index.html` 為最新版。
 
 ## 目錄結構
 
