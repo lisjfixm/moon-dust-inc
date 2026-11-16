@@ -2,7 +2,7 @@
 
 three.js 成品（公開倉庫 `lisjfixm/moon-dust-inc`）。原始 Poki 來源：<https://poki.com/zh/g/moon-dust>。
 
-- **目前版本**：1.0.0
+- **目前版本**：1.1.0
 - **圖形引擎**：three.js r187（已內嵌於 `index.html`，無外部 CDN 依賴）
 - **離線可執行**：無外部 script、無廣告 SDK 連線；Poki 呼叫在離線時為 no-op。
 - **線上試玩**：<https://lisjfixm.github.io/moon-dust-inc/>
@@ -22,6 +22,18 @@ python3 -m http.server 8782 --bind 127.0.0.1
 
 需透過 HTTP 伺服器存取（模組載入與資產 fetch 有限制），不建議直接 `file://` 開啟。
 
+## 自動遊玩模式（Auto-play）
+
+右下角 `AUTO` 開關：開啟後由腳本代玩，關閉即交还操作；開關狀態記住於 localStorage。
+
+- **探索**：持續前進並左右走位，間隔使用 turbo；可用時觸發雷射。
+- **回程販賣**：袋子滿且鄰近有 depot 時，走內建回程導航 hook 回到倉庫販賣。
+- **升級決策**：讀取經濟系統的 `canBuy / costOf / level / unlocked`，依「權重 ÷ 成本」評分選最優項目，經遊戲公開購買路徑下單；權重偏向煉油廠、背包、機器人、韌體等長線收益。
+- **狀態接駁**：自動跳過 intro；暫停、書本、商店等覆蓋層會自動關閉以回到 playing。
+- **限制**：無指標鎖定下無法程式化控制視角 yaw，走位以前進＋橫向搖擺為主；地面回收依賴磁鐵／機器人的被動範圍。
+
+實作為獨立 classic `<script>`，掛在打包模組之後，防禦性輪詢 `window.__game`，所有公開呼叫皆包 try/catch。模組原本只在網址帶 `?debug` 時暴露 `window.__game`，本版本改為常駐暴露以供自動模式取用，其餘 debug 行為未開啟。
+
 ## GitHub Pages 部署
 
 - 站點：<https://lisjfixm.github.io/moon-dust-inc/>
@@ -33,7 +45,7 @@ python3 -m http.server 8782 --bind 127.0.0.1
 
 | 路徑 | 內容 |
 |---|---|
-| `index.html` | 主頁面：內聯 PokiSDK stub、minified CSS、three.js + 遊戲打包模組（約 1.7 MB） |
+| `index.html` | 主頁面：內聯 PokiSDK stub、minified CSS、three.js + 遊戲打包模組（約 1.7 MB），以及模組之後的自動遊玩腳本 |
 | `locales/` | 27 個語言 JSON（各 214 鍵）；英文為程式內建 fallback，無 `en.json` |
 | `models/` | 24 個 GLB 模型（副檔名 `.bin`，glTF 2.0，內嵌貼圖） |
 | `moon/moon-height.bin` | 月球高度圖，自訂二進位原始資料 |
